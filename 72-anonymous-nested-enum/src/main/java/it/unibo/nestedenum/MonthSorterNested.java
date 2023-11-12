@@ -1,6 +1,7 @@
 package it.unibo.nestedenum;
 
 import java.util.Comparator;
+import java.util.Objects;
 
 /**
  * Implementation of {@link MonthSorter}.
@@ -56,6 +57,8 @@ public final class MonthSorterNested implements MonthSorter {
         }
 
         public static Month fromString(String month) {
+
+            Objects.requireNonNull(month);
             String name;
             Month out = JANUARY;
             boolean initialized = false;
@@ -77,7 +80,7 @@ public final class MonthSorterNested implements MonthSorter {
             } else {
                 return out;
             }
-        }
 
+        }
     }
 }
