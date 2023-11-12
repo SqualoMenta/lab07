@@ -14,7 +14,7 @@ public class MyIterablewithPolicy<T> implements IterableWithPolicy<T> {
     private Predicate<T> predicate;
 
     public MyIterablewithPolicy(T[] elements, Predicate<T> predicate) {
-        this.elements =new ArrayList<T>(Arrays.asList(elements));
+        this.elements = new ArrayList<T>(Arrays.asList(elements));
         this.predicate = predicate;
     }
 
@@ -31,34 +31,33 @@ public class MyIterablewithPolicy<T> implements IterableWithPolicy<T> {
 
     @Override
     public Iterator<T> iterator() {
-        return new MyIterator(this.elements);
+        return new MyIterator();
     }
 
     @Override
     public void setIterationPolicy(Predicate<T> filter) {
-        this.predicate = filter;    
+        this.predicate = filter;
     }
 
     private class MyIterator implements Iterator<T> {
 
-        private int occurences;
-        private List<T> elements;
-
-        public MyIterator(List<T> elements) {
-            occurences = 0;
-            this.elements = elements;
-        }
+        private int index = 0;
 
         @Override
         public boolean hasNext() {
-            return occurences < (elements.length() - 1);
+            while (index < elements.size()) {
+                if (predicate.test(elements.get(index))) {
+                    return true;
+                } else
+                    index++;
+            }
+            return false;
         }
 
         @Override
         public T next() {
             if (hasNext()) {
-                this.occurences++;
-                return this.elements[this.occurences];
+                return elements.get(index++);
             } else {
                 return null;
             }
